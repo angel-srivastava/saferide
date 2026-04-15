@@ -1,0 +1,131 @@
+// Version: 1.0.0
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DriverProfile__708140499 =
+  {
+    var avgRating : Float;
+    var isVerified : Bool;
+    var licenseId : Text;
+    var totalRides : Nat;
+    userId : UserId__1043627770;
+    var vehicleNumber : Text
+  };
+type GenderPreference__121972666 = {#Female; #Male; #NoPreference};
+type GenderPreference__277000864 = GenderPreference__121972666;
+type Gender__1039244887 = Gender__94681853;
+type Gender__94681853 = {#Female; #Male; #Other};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type LandmarkId__118529144 = LandmarkId__562780867;
+type LandmarkId__562780867 = Nat;
+type LandmarkId__976527710 = LandmarkId__562780867;
+type LandmarkType__810754463 = LandmarkType__832746119;
+type LandmarkType__832746119 =
+  {#Chowk; #Hospital; #Landmark; #Metro; #Station};
+type Landmark__612462839 =
+  {
+    city : Text;
+    id : LandmarkId__976527710;
+    landmarkType : LandmarkType__810754463;
+    latitude : Float;
+    longitude : Float;
+    name : Text
+  };
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type PassengerProfile__46455938 =
+  {var avgRating : Float; var totalRides : Nat; userId : UserId__1043627770};
+type RatingId__435167965 = RatingId__630786876;
+type RatingId__630786876 = Nat;
+type Rating__68729563 =
+  {
+    comment : ?Text;
+    createdAt : Timestamp__1062572612;
+    fromUserId : UserId__861171390;
+    id : RatingId__435167965;
+    rideId : RideId__180309505;
+    score : Nat;
+    toUserId : UserId__861171390
+  };
+type RideId__180309505 = RideId__497358404;
+type RideId__497358404 = Nat;
+type RideId__626924515 = RideId__497358404;
+type RideStatus__155096598 = RideStatus__433751273;
+type RideStatus__433751273 =
+  {#Accepted; #Cancelled; #Completed; #InProgress; #Requested};
+type RideType__1030861285 = RideType__819431463;
+type RideType__819431463 = {#General; #WomenOnly};
+type Ride__792755748 =
+  {
+    var completedAt : ?Timestamp__61262949;
+    var driverId : ?UserId__1019053440;
+    dropoffLandmarkId : LandmarkId__118529144;
+    farePerPassenger : Float;
+    genderPreference : GenderPreference__277000864;
+    id : RideId__626924515;
+    passengerId : UserId__1019053440;
+    pickupLandmarkId : LandmarkId__118529144;
+    requestedAt : Timestamp__61262949;
+    rideType : RideType__1030861285;
+    var startedAt : ?Timestamp__61262949;
+    var status : RideStatus__155096598;
+    var totalPassengers : Nat
+  };
+type Role__300349085 = {#Driver; #Passenger};
+type Role__717780527 = Role__300349085;
+type Timestamp__1062572612 = Timestamp__301639476;
+type Timestamp__301639476 = Int;
+type Timestamp__61262949 = Timestamp__301639476;
+type Timestamp__778030842 = Timestamp__301639476;
+type UserId__1019053440 = UserId__158757552;
+type UserId__1043627770 = UserId__158757552;
+type UserId__158757552 = Principal;
+type UserId__861171390 = UserId__158757552;
+type User__98118558 =
+  {
+    createdAt : Timestamp__778030842;
+    var gender : Gender__1039244887;
+    id : UserId__1043627770;
+    var name : Text;
+    var phone : Text;
+    var photoUrl : Text;
+    role : Role__717780527
+  };
+actor {
+  stable driverProfiles :
+    {
+      var root : Node__46230540<UserId__158757552, DriverProfile__708140499>;
+      var size : Nat__490723111
+    };
+  stable landmarks :
+    {
+      var root : Node__46230540<LandmarkId__562780867, Landmark__612462839>;
+      var size : Nat__490723111
+    };
+  stable nextLandmarkId : [var Nat];
+  stable nextRatingId : [var Nat];
+  stable nextRideId : [var Nat];
+  stable passProfiles :
+    {
+      var root : Node__46230540<UserId__158757552, PassengerProfile__46455938>;
+      var size : Nat__490723111
+    };
+  stable ratings :
+    {
+      var root : Node__46230540<RatingId__630786876, Rating__68729563>;
+      var size : Nat__490723111
+    };
+  stable rides :
+    {
+      var root : Node__46230540<RideId__497358404, Ride__792755748>;
+      var size : Nat__490723111
+    };
+  stable users :
+    {
+      var root : Node__46230540<UserId__158757552, User__98118558>;
+      var size : Nat__490723111
+    }
+};

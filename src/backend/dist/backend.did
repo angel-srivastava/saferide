@@ -1,0 +1,187 @@
+type UserRatingSummary = 
+ record {
+   avgScore: float64;
+   ratings: vec Rating;
+   totalRatings: nat;
+   userId: UserId;
+ };
+type UserPublic = 
+ record {
+   createdAt: Timestamp;
+   gender: Gender;
+   id: UserId;
+   name: text;
+   phone: text;
+   photoUrl: text;
+   role: Role;
+ };
+type UserId = principal;
+type Timestamp = int;
+type SubmitRatingRequest = 
+ record {
+   comment: opt text;
+   rideId: RideId;
+   score: nat;
+   toUserId: UserId;
+ };
+type Role = 
+ variant {
+   Driver;
+   Passenger;
+ };
+type RideType = 
+ variant {
+   General;
+   WomenOnly;
+ };
+type RideStatus = 
+ variant {
+   Accepted;
+   Cancelled;
+   Completed;
+   InProgress;
+   Requested;
+ };
+type RidePublic = 
+ record {
+   completedAt: opt Timestamp;
+   driverId: opt UserId;
+   dropoffLandmarkId: LandmarkId;
+   farePerPassenger: float64;
+   genderPreference: GenderPreference;
+   id: RideId;
+   passengerId: UserId;
+   pickupLandmarkId: LandmarkId;
+   requestedAt: Timestamp;
+   rideType: RideType;
+   startedAt: opt Timestamp;
+   status: RideStatus;
+   totalPassengers: nat;
+ };
+type RideId = nat;
+type RegisterUserRequest = 
+ record {
+   gender: Gender;
+   name: text;
+   phone: text;
+   photoUrl: text;
+   role: Role;
+ };
+type RegisterDriverRequest = 
+ record {
+   licenseId: text;
+   vehicleNumber: text;
+ };
+type RatingId = nat;
+type Rating = 
+ record {
+   comment: opt text;
+   createdAt: Timestamp;
+   fromUserId: UserId;
+   id: RatingId;
+   rideId: RideId;
+   score: nat;
+   toUserId: UserId;
+ };
+type PassengerProfilePublic = 
+ record {
+   avgRating: float64;
+   totalRides: nat;
+   userId: UserId;
+ };
+type LandmarkType = 
+ variant {
+   Chowk;
+   Hospital;
+   Landmark;
+   Metro;
+   Station;
+ };
+type LandmarkId = nat;
+type Landmark = 
+ record {
+   city: text;
+   id: LandmarkId;
+   landmarkType: LandmarkType;
+   latitude: float64;
+   longitude: float64;
+   name: text;
+ };
+type GenderPreference = 
+ variant {
+   Female;
+   Male;
+   NoPreference;
+ };
+type Gender = 
+ variant {
+   Female;
+   Male;
+   Other;
+ };
+type FarePreview = 
+ record {
+   distanceKm: float64;
+   fareFor1: float64;
+   fareFor2: float64;
+   fareFor3: float64;
+   fareFor4: float64;
+   totalFare: float64;
+ };
+type DriverProfilePublic = 
+ record {
+   avgRating: float64;
+   isVerified: bool;
+   licenseId: text;
+   totalRides: nat;
+   userId: UserId;
+   vehicleNumber: text;
+ };
+type CreateRideRequest = 
+ record {
+   dropoffLandmarkId: LandmarkId;
+   genderPreference: GenderPreference;
+   pickupLandmarkId: LandmarkId;
+   rideType: RideType;
+   totalPassengers: nat;
+ };
+type AvailableDriver = 
+ record {
+   avgRating: float64;
+   driverId: UserId;
+   isVerified: bool;
+   name: text;
+   photoUrl: text;
+   totalRides: nat;
+   vehicleNumber: text;
+ };
+service : {
+  acceptRide: (rideId: RideId) -> (RidePublic);
+  cancelRide: (rideId: RideId) -> (RidePublic);
+  createRide: (req: CreateRideRequest) -> (RidePublic);
+  getAllLandmarks: () -> (vec Landmark) query;
+  getDriverProfile: (userId: UserId) -> (opt DriverProfilePublic) query;
+  getDriverRideHistory: () -> (vec RidePublic) query;
+  getIncomingRideRequests: () -> (vec RidePublic) query;
+  getLandmarkById: (id: LandmarkId) -> (opt Landmark) query;
+  getLandmarkDistance: (fromId: LandmarkId, toId: LandmarkId) ->
+   (opt float64) query;
+  getLandmarksByCity: (city: text) -> (vec Landmark) query;
+  getMyProfile: () -> (opt UserPublic) query;
+  getMyRideHistory: () -> (vec RidePublic) query;
+  getPassengerProfile: (userId: UserId) -> (opt PassengerProfilePublic) query;
+  getRatingsForUser: (userId: UserId) -> (UserRatingSummary) query;
+  getRideById: (rideId: RideId) -> (opt RidePublic) query;
+  getUser: (userId: UserId) -> (opt UserPublic) query;
+  listAvailableDrivers: (rideId: RideId) -> (vec AvailableDriver) query;
+  markDropoff: (rideId: RideId) -> (RidePublic);
+  markPickup: (rideId: RideId) -> (RidePublic);
+  previewFare: (pickupId: LandmarkId, dropoffId: LandmarkId) ->
+   (FarePreview) query;
+  registerDriverProfile: (req: RegisterDriverRequest) ->
+   (DriverProfilePublic);
+  registerUser: (req: RegisterUserRequest) -> (UserPublic);
+  rejectRide: (rideId: RideId) -> (RidePublic);
+  submitRating: (req: SubmitRatingRequest) -> (Rating);
+  updateUserPhoto: (photoUrl: text) -> ();
+}

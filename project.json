@@ -1,0 +1,26 @@
+{
+  "overview": "SafeRide is a mobile-first ride-sharing MVP focused on safety, affordability, and trust. Passengers and drivers can sign up, set up profiles, and book rides with full transparency — preset landmark-based pickup/dropoff, gender-filtered ride types, live driver verification, and SOS emergency support built in.",
+  "features": [
+    "Passenger and driver accounts with profile photos and verification",
+    "Women-only and general ride options with gender preference filtering",
+    "Preset landmark-based pickup and dropoff points",
+    "Transparent per-passenger fare preview before booking",
+    "Pre-booking driver safety card (name, photo, vehicle, rating, verification)",
+    "Active ride view with static map and SOS emergency button",
+    "Mutual post-ride ratings (passenger rates driver, driver rates passenger)",
+    "Ride history with full trip summaries and type filters",
+    "Emergency contacts management for SOS scenarios",
+    "Full dark mode support across all pages"
+  ],
+  "category": "transportation",
+  "tags": [
+    "ride-sharing",
+    "safety",
+    "mobile",
+    "transportation",
+    "dark-mode",
+    "ratings",
+    "maps"
+  ],
+  "last_updated": "2026-04-13T14:35:56.565Z"
+}
